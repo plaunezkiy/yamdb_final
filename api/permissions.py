@@ -5,7 +5,7 @@ from users.models import Roles
 class IsAuthorOrReadOnly(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return obj.author == request.user or \
-               request.method in permissions.SAFE_METHODS
+            request.method in permissions.SAFE_METHODS
 
 
 class IsAdmin(permissions.BasePermission):
@@ -23,8 +23,8 @@ class ReadOnly(permissions.BasePermission):
 
 class IsOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        return (request.user.is_authenticated and
-                obj.author == request.user)
+        return request.user.is_authenticated and obj.author == \
+            request.user
 
 
 class IsModerator(permissions.BasePermission):

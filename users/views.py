@@ -62,7 +62,7 @@ def email_code(request):
         message=settings.MAIL_TEXT.format(confirmation_code),
         from_email=settings.DEFAULT_FROM_EMAIL,
         recipient_list=(data['email'],),
-        )
+    )
     return Response({'email': serializer.data['email']},
                     status=status.HTTP_201_CREATED)
 
