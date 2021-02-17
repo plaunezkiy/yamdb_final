@@ -6,10 +6,4 @@ COPY . /code
 
 RUN pip install -r requirements.txt
 
-CMD python manage.py makemigrations
-
-CMD python manage.py migrate
-
-CMD python manage.py collectstatic --no-input --clear
-
-CMD gunicorn api_yamdb.wsgi:application --bind 0.0.0.0:8000
+CMD python manage.py makemigrations && python manage.py migrate

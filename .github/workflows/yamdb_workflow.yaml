@@ -45,10 +45,25 @@ jobs:
           tags: pelish/yamdb:latest
 
   deploy:
+    env:
+      PROJECT_ROOT: ~/www/yamdb_final
+
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
-      - name: executing remote ssh commands to deploy
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Copy docker-compose and nginx config
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: "docker-compose.yaml, nginx/default.conf, static, .env"
+          target: ${{ env.PROJECT_ROOT }}
+
+      - name: Execute remote ssh commands to deploy
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -56,10 +71,13 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
           script: |
-            sudo apt install docker
+            cd ${{ env.PROJECT_ROOT }}
+            sudo apt install docker docker-compose -y
+            sudo systemctl start docker
+            sudo systemctl enable docker
             sudo docker pull pelish/yamdb
-            sudo docker stop $(sudo docker ps -a -q)
-            sudo docker run --rm -d -p 8000:8000 pelish/yamdb
+            sudo docker-compose down -v
+            sudo docker-compose up -d --build
 
   send_message:
     runs-on: ubuntu-latest
