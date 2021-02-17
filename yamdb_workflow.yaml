@@ -22,7 +22,7 @@ jobs:
         run: flake8 . --exclude venv,users/migrations,titles/migrations,tests,api/migrations,categories/migrations,genres/migrations
 
       - name: Test with pytest
-        run: run.sh
+        run: ./run.sh
 
   build_and_push_to_docker_hub:
     name: Push Docker image to Docker Hub
