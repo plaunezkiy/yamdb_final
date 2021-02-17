@@ -14,7 +14,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewSerializer
     permission_classes = [
         IsAuthenticatedOrReadOnly & (
-                IsAuthorOrReadOnly | IsModerator | IsAdminOrStaff
+            IsAuthorOrReadOnly | IsModerator | IsAdminOrStaff
         )
     ]
 
@@ -42,7 +42,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentsSerializer
     permission_classes = [
         IsAuthenticatedOrReadOnly & (
-                IsAuthorOrReadOnly | IsModerator | IsAdminOrStaff
+            IsAuthorOrReadOnly | IsModerator | IsAdminOrStaff
         )
     ]
 
