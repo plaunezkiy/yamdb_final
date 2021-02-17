@@ -12,7 +12,8 @@ from .serializers import CommentsSerializer, ReviewSerializer
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly & (IsAuthorOrReadOnly | IsModerator | IsAdminOrStaff)]
+    permission_classes = [IsAuthenticatedOrReadOnly &
+                          (IsAuthorOrReadOnly | IsModerator | IsAdminOrStaff)]
 
     def get_queryset(self):
         title = get_object_or_404(Title, pk=self.kwargs.get('title_id'))
@@ -27,16 +28,22 @@ class ReviewViewSet(viewsets.ModelViewSet):
             return Response(status=status.HTTP_400_BAD_REQUEST)
         serializer.save(author=request.user, title=title)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(
+            serializer.data,
+            status=status.HTTP_201_CREATED,
+            headers=headers
+        )
 
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentsSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly & (IsAuthorOrReadOnly | IsModerator | IsAdminOrStaff)]
+    permission_classes = [IsAuthenticatedOrReadOnly &
+                          (IsAuthorOrReadOnly | IsModerator | IsAdminOrStaff)]
 
     def get_queryset(self):
         title = get_object_or_404(Title, pk=self.kwargs.get('title_id'))
-        review = get_object_or_404(Review, pk=self.kwargs.get('review_id'), title=title)
+        review = get_object_or_404(Review, pk=self.kwargs.get('review_id'),
+                                   title=title)
         queryset = review.comments.all()
         return queryset
 
@@ -51,4 +58,5 @@ class CommentViewSet(viewsets.ModelViewSet):
 
         serializer.save(author=request.user, review=review)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(serializer.data, status=status.HTTP_201_CREATED,
+                        headers=headers)

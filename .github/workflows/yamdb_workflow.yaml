@@ -19,7 +19,7 @@ jobs:
           pip install flake8 pytest
           pip install -r requirements.txt
       - name: Lint with flake8
-        run: flake8 .
+        run: flake8 . --exclude venv,users/migrations,titles/migrations,tests,api/migrations,categories/migrations,genres/migrations
 
       - name: Test with pytest
         run: pytest tests.py

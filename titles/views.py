@@ -1,5 +1,4 @@
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, filters
+from rest_framework import viewsets
 from api.permissions import ReadOnly, IsAdminOrStaff
 from .filters import TitleFilter
 from .models import Title
