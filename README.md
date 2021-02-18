@@ -1,6 +1,6 @@
 
 # Описание
-Docker образ для REST API сервиса **YaMDB** на базе **Django**, **PostgreSql 12.4** и **nginx**
+Docker образ для REST API сервиса **YaMDB** на базе **Django**, **PostgreSql 12.4** и **nginx**.
 
 ![yamdb_status](https://github.com/plaunezkiy/yamdb_final/workflows/yamdb_worflow/badge.svg)
 ## Начало работы
