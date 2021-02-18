@@ -50,6 +50,7 @@ jobs:
 
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -61,7 +62,7 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
-          source: "docker-compose.yaml, nginx/nginx.conf, static, .env"
+          source: "docker-compose.yaml, nginx/nginx.conf, static, .env.example"
           target: ${{ env.PROJECT_ROOT }}
 
       - name: Execute remote ssh commands to deploy
